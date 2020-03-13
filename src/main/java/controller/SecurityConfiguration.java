@@ -1,5 +1,7 @@
 package controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +19,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private DataSource dataSource;
 
+    @Autowired
     public SecurityConfiguration(DataSource dataSource){
         this.dataSource = dataSource;
     }
@@ -32,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable();
 
         http.headers().frameOptions().sameOrigin();
+        http.addFilter(new JsonAuthenticationFilter(authenticationManager(), new ObjectMapper()));
     }
 
    @Override
@@ -50,6 +54,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
 }

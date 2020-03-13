@@ -14,6 +14,6 @@ public class SecurityController {
 
     @GetMapping("/protected")
     public String test(){
-        return "Hello World";
+        return "Hello World Y";
     }
 }
