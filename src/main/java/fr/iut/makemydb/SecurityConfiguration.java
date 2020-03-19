@@ -1,4 +1,4 @@
-package controller;
+package fr.iut.makemydb;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package controller;
+package fr.iut.makemydb;
 
 import controller.UserCredentials;
 import com.fasterxml.jackson.databind.ObjectMapper;

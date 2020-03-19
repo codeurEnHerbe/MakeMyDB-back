@@ -1,7 +1,9 @@
 package controller;
 
 
-import org.springframework.security.core.userdetails.User;
+
+
+import fr.iut.makemydb.dto.ChangePasswordRequestDTO;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
@@ -23,7 +25,7 @@ public class UserController {
     }
 
     @PostMapping("/change-password")
-    public void changePassword(@RequestBody ChangePassword changePassword){
+    public void changePassword(@RequestBody ChangePasswordRequestDTO changePassword){
         jdbcUserDetailsManager.changePassword(changePassword.getOldPassword(), passwordEncoder.encode(changePassword.getNewPassword()));
     }
 
