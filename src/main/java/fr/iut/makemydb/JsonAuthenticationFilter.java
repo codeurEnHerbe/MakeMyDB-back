@@ -1,6 +1,6 @@
 package fr.iut.makemydb;
 
-import controller.UserCredentials;
+import fr.iut.makemydb.dto.UserCredentials;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

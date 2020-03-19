@@ -1,4 +1,4 @@
-package controller;
+package fr.iut.makemydb.controler;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

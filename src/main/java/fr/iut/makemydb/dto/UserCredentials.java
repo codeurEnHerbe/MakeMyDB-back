@@ -1,4 +1,4 @@
-package controller;
+package fr.iut.makemydb.dto;
 
 public class UserCredentials {
 

@@ -1,7 +1,4 @@
-package controller;
-
-
-
+package fr.iut.makemydb.controler;
 
 import fr.iut.makemydb.dto.ChangePasswordRequestDTO;
 import org.springframework.security.core.userdetails.UserDetails;
