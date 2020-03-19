@@ -1,6 +1,6 @@
-package fr.iut.makemydb;
+package fr.iut.makemydb.security;
 
-import fr.iut.makemydb.dto.UserCredentials;
+import fr.iut.makemydb.dto.UserCredentialsDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,7 +30,7 @@ public class JsonAuthenticationFilter extends UsernamePasswordAuthenticationFilt
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
 
         try {
-            UserCredentials userCredentials = objectMapper.readValue(request.getInputStream(), UserCredentials.class);
+            UserCredentialsDTO userCredentials = objectMapper.readValue(request.getInputStream(), UserCredentialsDTO.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userCredentials.getUsername(), userCredentials.getPassword(), new ArrayList<>())

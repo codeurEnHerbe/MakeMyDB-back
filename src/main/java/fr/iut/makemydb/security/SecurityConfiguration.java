@@ -1,4 +1,4 @@
-package fr.iut.makemydb;
+package fr.iut.makemydb.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/users/**").permitAll()
+                .antMatchers("/api/schema/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable();

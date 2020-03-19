@@ -30,4 +30,6 @@ public class UserController {
     public UserDetails getUser(){
         return jdbcUserDetailsManager.loadUserByUsername("admin");
     }
+
+
 }
