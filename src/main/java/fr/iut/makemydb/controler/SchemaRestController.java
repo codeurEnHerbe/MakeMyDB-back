@@ -20,11 +20,20 @@ public class SchemaRestController {
     private SchemaService delegate;
 
     @Autowired
+    private SchemaRepository repo;
+
+    @Autowired
     private DtoConverter mapper;
 
     @GetMapping("/byName/{name}")
     public List<SchemaDTO> findByNameContain(@PathVariable("name") String name){
         val tmp = delegate.findByNameContain(name);
+        return mapper.mapAsList(tmp, SchemaDTO.class);
+    }
+
+    @GetMapping("/")
+    public List<SchemaDTO> findAll(){
+        val tmp = repo.findAll();
         return mapper.mapAsList(tmp, SchemaDTO.class);
     }
 
