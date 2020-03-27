@@ -10,6 +10,6 @@ public class UserMapper {
     }
 
     public static UserRegisterDTO userToUserDTO(User newUser) {
-        return new UserRegisterDTO(newUser.getUsername(), newUser.getPassword(), newUser.getAuthorities());
+        return new UserRegisterDTO(newUser.getUsername(), newUser.getPassword(), newUser.getPassword(), newUser.getAuthorities());
     }
 }
