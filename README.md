@@ -1,5 +1,5 @@
 # MakeMyDB-back
 
-Rafael Auriac\n
-Rodolphe Tiquet Duriez\n
+Rafael Auriac
+Rodolphe Tiquet Duriez
 Yann Rusch
