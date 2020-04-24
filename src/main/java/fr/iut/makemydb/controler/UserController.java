@@ -39,6 +39,11 @@ public class UserController {
         return jdbcUserDetailsManager.loadUserByUsername("admin");
     }
 
+    @GetMapping("/check-username")
+    public Boolean checkUsername(@RequestParam("username") String username){
+        return jdbcUserDetailsManager.userExists(username);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<UserRegisterDTO> register(@RequestBody UserRegisterDTO newUserDTO){
         System.out.println(newUserDTO);
