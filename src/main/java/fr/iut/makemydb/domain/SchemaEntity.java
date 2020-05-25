@@ -20,4 +20,9 @@ public class SchemaEntity {
     private int version;
 
     private String name;
+
+    @ManyToOne
+    private UserInfosEntity user;
+
+    private String schemaData;
 }

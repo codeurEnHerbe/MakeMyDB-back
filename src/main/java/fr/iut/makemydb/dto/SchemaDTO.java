@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 @Data
 public class SchemaDTO {
-    private Integer id;
-    private int version;
     private String name;
+    private String schemaData;
 }

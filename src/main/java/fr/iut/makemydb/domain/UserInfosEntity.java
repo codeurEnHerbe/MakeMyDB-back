@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.Set;
 
 @Entity
 @Data
@@ -12,6 +14,9 @@ public class UserInfosEntity {
     @Id
     private String username;
     private String email;
+
+    @OneToMany
+    private Set<SchemaEntity> schemas;
 
     public UserInfosEntity(){
     }

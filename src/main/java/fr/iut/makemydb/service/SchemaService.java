@@ -22,6 +22,7 @@ public class SchemaService {
         SchemaEntity e = new SchemaEntity();
         e.setName(schema.getName());
         e = repository.save(e);
+        e.setSchemaData(schema.getSchemaData());
         return e;
     }
 }
