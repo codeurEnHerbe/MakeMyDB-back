@@ -14,6 +14,7 @@ import java.util.List;
 public class UserRegisterDTO {
 
 
+    private String email;
     private String username;
     private String password;
     private String passwordConfirmation;

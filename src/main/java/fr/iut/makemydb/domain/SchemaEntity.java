@@ -20,6 +20,4 @@ public class SchemaEntity {
     private int version;
 
     private String name;
-
-
 }

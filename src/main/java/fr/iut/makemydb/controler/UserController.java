@@ -3,6 +3,7 @@ package fr.iut.makemydb.controler;
 import fr.iut.makemydb.dto.ChangePasswordRequestDTO;
 import fr.iut.makemydb.dto.UserRegisterDTO;
 import fr.iut.makemydb.mapper.UserMapper;
+import fr.iut.makemydb.service.UserInfosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +22,14 @@ import java.util.List;
 public class UserController {
 
     private JdbcUserDetailsManager jdbcUserDetailsManager;
+    private UserInfosService userInfosService;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(JdbcUserDetailsManager jdbcUserDetailsManager, PasswordEncoder passwordEncoder){
+    public UserController(JdbcUserDetailsManager jdbcUserDetailsManager, PasswordEncoder passwordEncoder, UserInfosService userInfosService){
         this.passwordEncoder = passwordEncoder;
         this.jdbcUserDetailsManager = jdbcUserDetailsManager;
+        this.userInfosService = userInfosService;
     }
 
     @PostMapping("/change-password")
@@ -44,6 +47,11 @@ public class UserController {
         return jdbcUserDetailsManager.userExists(username);
     }
 
+    @GetMapping("/check-email")
+    public Boolean checkEmail(@RequestParam("email") String email) {
+        return this.userInfosService.checkEmail(email);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<UserRegisterDTO> register(@RequestBody UserRegisterDTO newUserDTO){
         System.out.println(newUserDTO);
@@ -53,6 +61,7 @@ public class UserController {
             return ResponseEntity.status(403).build();
         }else{
             jdbcUserDetailsManager.createUser(tmp);
+            userInfosService.saveUserInfos(newUserDTO);
             return ResponseEntity.ok(UserMapper.userToUserDTO(tmp));
 
         }
