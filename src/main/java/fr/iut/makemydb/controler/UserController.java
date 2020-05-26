@@ -79,5 +79,4 @@ public class UserController {
         jdbcUserDetailsManager.deleteUser(username);
        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
 }
