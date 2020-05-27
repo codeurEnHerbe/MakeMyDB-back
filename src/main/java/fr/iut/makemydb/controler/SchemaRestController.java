@@ -41,6 +41,7 @@ public class SchemaRestController {
 
     @PostMapping(path = "/")
     public SchemaDTO create(@RequestBody SchemaDTO schema){
+        System.out.println(schema);
         val tmp = delegate.createSchemaEntity(schema);
         return mapper.map(tmp, SchemaDTO.class);
     }
