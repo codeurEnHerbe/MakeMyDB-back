@@ -10,4 +10,5 @@ import javax.persistence.*;
 public class SchemaDTO {
     private String name;
     private String schemaData;
+    private UserCredentialsDTO user;
 }

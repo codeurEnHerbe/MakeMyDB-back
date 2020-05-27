@@ -3,6 +3,7 @@ package fr.iut.makemydb.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 
@@ -22,6 +23,7 @@ public class SchemaEntity {
     private String name;
 
     @ManyToOne
+    @JoinColumn(name="username")
     private UserInfosEntity user;
 
     private String schemaData;

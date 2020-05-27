@@ -7,6 +7,7 @@ import fr.iut.makemydb.dto.UserRegisterDTO;
 import fr.iut.makemydb.repository.SchemaRepository;
 import fr.iut.makemydb.repository.UserInfosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,4 +32,6 @@ public class UserInfosService {
         Optional<UserInfosEntity> result = this.repository.findByEmail(email);
         return !result.isPresent();
     }
+
+
 }
