@@ -38,4 +38,14 @@ public class SchemaService {
         e = repository.save(e);
         return e;
     }
+
+    public Optional<SchemaEntity> findByUsernameAndId(UserDetails user, int id){
+        Optional<UserInfosEntity> userInfos = userRepo.findByUsername(user.getUsername());
+        System.out.println(repository.findAllByUser(userInfos.get()).get(0).getId());
+        Optional<SchemaEntity> result = repository.findAllByUser(userInfos.get()).stream()
+                .filter( schema -> schema.getId() == id)
+                .findAny();
+
+        return result;
+    }
 }
