@@ -15,7 +15,7 @@ public class UserInfosEntity {
     private String username;
     private String email;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
     private Set<SchemaEntity> schemas;
 
     public UserInfosEntity(){
@@ -24,5 +24,11 @@ public class UserInfosEntity {
     public UserInfosEntity(String username, String email){
         this.setUsername(username);
         this.setEmail(email);
+    }
+
+    public void addSchema(SchemaEntity e) {
+        Set<SchemaEntity> schemas = this.getSchemas();
+        schemas.add(e);
+        this.setSchemas(schemas);
     }
 }

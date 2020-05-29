@@ -6,15 +6,14 @@ import fr.iut.makemydb.dto.SchemaDTO;
 import fr.iut.makemydb.repository.SchemaRepository;
 import fr.iut.makemydb.repository.UserInfosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SchemaService {
+
 
     @Autowired
     private SchemaRepository repository;
@@ -22,27 +21,29 @@ public class SchemaService {
     @Autowired
     private UserInfosRepository userRepo;
 
+    @Autowired
+    private UserInfosService userServ;
+
     public List<SchemaEntity> findByNameContain(String name){
-        return repository.findAllByNameLike("%"+name+"%");
+        UserInfosEntity userInfos = userServ.getCurrentUser();
+        return userInfos.getSchemas().stream().
+                filter( schema -> schema.getName() == "%"+name+"%")
+                .collect(Collectors.toList());
     }
 
     public SchemaEntity createSchemaEntity(SchemaDTO schema){
-        UserDetails userDet = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserInfosEntity userInfos = userServ.getCurrentUser();
         SchemaEntity e = new SchemaEntity();
         e.setName(schema.getName());
         e.setSchemaData(schema.getSchemaData());
-        Optional<UserInfosEntity> foundUser = this.userRepo.findByUsername(userDet.getUsername());
-        if(foundUser.isPresent())  {
-            e.setUser(foundUser.get());
-        }
-        e = repository.save(e);
+        userInfos.getSchemas().add(e);
         return e;
-    }
+    }m
 
-    public Optional<SchemaEntity> findByUsernameAndId(UserDetails user, int id){
-        Optional<UserInfosEntity> userInfos = userRepo.findByUsername(user.getUsername());
-        System.out.println(repository.findAllByUser(userInfos.get()).get(0).getId());
-        Optional<SchemaEntity> result = repository.findAllByUser(userInfos.get()).stream()
+    public Optional<SchemaEntity> findById(int id){
+        UserInfosEntity userInfos = userServ.getCurrentUser();
+        System.out.println(repository.findAllByUser(userInfos).get(0).getId());
+        Optional<SchemaEntity> result = userInfos.getSchemas().stream()
                 .filter( schema -> schema.getId() == id)
                 .findAny();
 

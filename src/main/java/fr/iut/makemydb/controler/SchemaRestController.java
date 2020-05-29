@@ -47,9 +47,7 @@ public class SchemaRestController {
 
     @GetMapping("/generate")
     public String generateSql(@RequestParam("id") int id) throws JsonProcessingException {
-        //Question: Peut on faire cette opérantion en passant par le model ? (this.user.schemas.find(id))
-        UserDetails user = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Optional<SchemaEntity> schema = delegate.findByUsernameAndId(user, id);
+        Optional<SchemaEntity> schema = delegate.findById(id);
         if(schema.isPresent()) {
             return sqlService.generateSql(schema.get());
         }

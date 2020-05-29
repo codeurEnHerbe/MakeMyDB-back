@@ -7,6 +7,8 @@ import fr.iut.makemydb.dto.UserRegisterDTO;
 import fr.iut.makemydb.repository.SchemaRepository;
 import fr.iut.makemydb.repository.UserInfosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,10 @@ public class UserInfosService {
 
     @Autowired
     private UserInfosRepository repository;
+
+    @Autowired
+    private UserInfosRepository userRepo;
+
 
     public UserInfosService(){
     }
@@ -33,5 +39,14 @@ public class UserInfosService {
         return !result.isPresent();
     }
 
+    public UserInfosEntity getCurrentUser(){
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<UserInfosEntity> userInfos = userRepo.findByUsername(user.getUsername());
+        if(userInfos.isPresent()){
+            return userInfos.get();
+        }else{
+            return null;
+        }
+    }
 
 }
