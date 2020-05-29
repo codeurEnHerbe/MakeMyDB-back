@@ -26,5 +26,7 @@ public class SchemaEntity {
     @JoinColumn(name="username")
     private UserInfosEntity user;
 
+    @Lob
+    @Column(columnDefinition="CLOB")
     private String schemaData;
 }
