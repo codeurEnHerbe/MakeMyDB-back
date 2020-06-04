@@ -37,13 +37,14 @@ public class SchemaService {
         e.setName(schema.getName());
         e.setSchemaData(schema.getSchemaData());
         userInfos.getSchemas().add(e);
+        e.setUser(userInfos);
         return e;
-    }m
+    }
 
     public Optional<SchemaEntity> findById(int id){
         UserInfosEntity userInfos = userServ.getCurrentUser();
-        System.out.println(repository.findAllByUser(userInfos).get(0).getId());
-        Optional<SchemaEntity> result = userInfos.getSchemas().stream()
+        List<SchemaEntity> schemas = userInfos.getSchemas();
+        Optional<SchemaEntity> result = schemas.stream()
                 .filter( schema -> schema.getId() == id)
                 .findAny();
 
