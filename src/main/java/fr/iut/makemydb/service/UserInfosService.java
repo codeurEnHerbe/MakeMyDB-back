@@ -48,5 +48,4 @@ public class UserInfosService {
             return null;
         }
     }
-
 }

@@ -50,4 +50,13 @@ public class SchemaService {
 
         return result;
     }
+
+    public Optional<SchemaEntity> loadSchemaEntity(String name) {
+        UserInfosEntity user = userServ.getCurrentUser();
+
+        return user.getSchemas()
+                .stream()
+                .filter(schema -> schema.getName().equals(name))
+                .findAny();
+    }
 }
