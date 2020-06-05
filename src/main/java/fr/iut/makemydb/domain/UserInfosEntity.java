@@ -15,7 +15,7 @@ public class UserInfosEntity {
     private String username;
     private String email;
 
-    @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SchemaEntity> schemas;
 
     public UserInfosEntity(){

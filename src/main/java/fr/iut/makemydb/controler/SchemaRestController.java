@@ -11,6 +11,7 @@ import fr.iut.makemydb.service.UserInfosService;
 import lombok.val;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -70,4 +71,14 @@ public class SchemaRestController {
         val tmp = delegate.createSchemaEntity(schema);
         return mapper.map(tmp, SchemaDTO.class);
     }
+
+    @GetMapping("/load/{name}")
+    public ResponseEntity<SchemaDTO> load(@PathVariable("name") String name) {
+        val tmp = delegate.loadSchemaEntity(name);
+        if (tmp.isPresent())
+            return ResponseEntity.ok(mapper.map(tmp.get(), SchemaDTO.class));
+        else
+            return ResponseEntity.status(403).build();
+    }
+
 }

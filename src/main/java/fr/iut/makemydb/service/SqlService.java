@@ -30,7 +30,6 @@ public class SqlService {
 
     private String createRelations(SchemaInfos infos){
         ArrayList<Element> sqlEentities = new ArrayList<>(infos.getEntities().stream().map( entity -> entity.getElement()).collect(Collectors.toList()));
-        infos.getRelations().get(0).getElement().getLinks().get(0).setCardinalMax();
         infos.getRelations().forEach( relation -> {
             Link link1 = relation.getElement().getLinks().get(0);
             Link link2 = relation.getElement().getLinks().get(1);

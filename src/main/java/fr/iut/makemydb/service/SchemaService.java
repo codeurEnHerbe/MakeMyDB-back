@@ -7,6 +7,9 @@ import fr.iut.makemydb.repository.SchemaRepository;
 import fr.iut.makemydb.repository.UserInfosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,9 +37,18 @@ public class SchemaService {
     public SchemaEntity createSchemaEntity(SchemaDTO schema){
         UserInfosEntity userInfos = userServ.getCurrentUser();
         SchemaEntity e = new SchemaEntity();
+        List<SchemaEntity> listSchema = userInfos.getSchemas();
+
+        Optional<SchemaEntity> schemaEntity = listSchema.stream()
+                .filter(userSchema -> userSchema.getName().equals(schema.getName()))
+                .findAny();
+
         e.setName(schema.getName());
         e.setSchemaData(schema.getSchemaData());
-        userInfos.getSchemas().add(e);
+        if (schemaEntity.isPresent()) {
+            listSchema.remove(schemaEntity.get());
+        }
+        listSchema.add(e);
         e.setUser(userInfos);
         return e;
     }
@@ -49,5 +61,14 @@ public class SchemaService {
                 .findAny();
 
         return result;
+    }
+
+    public Optional<SchemaEntity> loadSchemaEntity(String name) {
+        UserInfosEntity user = userServ.getCurrentUser();
+
+        return user.getSchemas()
+                .stream()
+                .filter(schema -> schema.getName().equals(name))
+                .findAny();
     }
 }
