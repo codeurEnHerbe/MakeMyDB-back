@@ -7,7 +7,9 @@ import fr.iut.makemydb.mapper.DtoConverter;
 import fr.iut.makemydb.repository.SchemaRepository;
 import fr.iut.makemydb.service.SchemaService;
 import fr.iut.makemydb.service.SqlService;
+import fr.iut.makemydb.service.UserInfosService;
 import lombok.val;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,6 +35,9 @@ public class SchemaRestController {
     @Autowired
     private DtoConverter mapper;
 
+    @Autowired
+    private UserInfosService userService;
+
     @GetMapping("/byName/{name}")
     public List<SchemaDTO> findByNameContain(@PathVariable("name") String name){
         val tmp = delegate.findByNameContain(name);
@@ -46,10 +51,15 @@ public class SchemaRestController {
     }
 
     @GetMapping("/generate")
-    public String generateSql(@RequestParam("id") int id) throws JsonProcessingException {
-        Optional<SchemaEntity> schema = delegate.findById(id);
+    public String generateSql(@RequestParam("id") int id) throws JSONException, JsonProcessingException {
+        Optional<SchemaEntity> schema = userService.getCurrentUser().getSchemas()
+            .stream()
+            .filter( schemaEntity -> schemaEntity.getId().equals(id))
+            .findAny();
         if(schema.isPresent()) {
-            return sqlService.generateSql(schema.get());
+            String yeet = sqlService.generateSql(schema.get());
+            System.out.println(yeet);
+            return yeet;
         }
          return "";
     }

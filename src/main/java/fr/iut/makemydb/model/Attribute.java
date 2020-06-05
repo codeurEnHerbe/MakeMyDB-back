@@ -12,6 +12,8 @@ public class Attribute {
 
     private boolean foreignTable, foreignAttribute;
 
+    private Attribute references;//Foreign Key
+
     public Attribute(){
     }
 }

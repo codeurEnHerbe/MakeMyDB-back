@@ -14,4 +14,9 @@ public class Element {
     public Element(){
         this.attributes = new ArrayList<>();
     }
+
+    public Element(String name, ArrayList<Attribute> attributes) {
+        this.name = name;
+        this.attributes = attributes;
+    }
 }
