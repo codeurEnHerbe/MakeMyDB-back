@@ -33,12 +33,20 @@ public class SqlService {
         infos.getRelations().forEach( relation -> {
             Link link1 = relation.getElement().getLinks().get(0);
             Link link2 = relation.getElement().getLinks().get(1);
+            Entity e1 = infos.findEntityByName(link1.getEntityName());
+            Entity e2 = infos.findEntityByName(link2.getEntityName());
+
             if( (link1.getCardinalMax().equals("1") && link2.getCardinalMax().equals("n")) ){
-                infos.findEntityByName(link1.getEntityName()).findAttributePrimary().setReferences(infos.findEntityByName(link2.getEntityName()).findAttributePrimary()); // add attribute reference(other attribute)
+                e2.getElement().getAttributes().add(new Attribute("fk_" + e1.findAttributePrimary().getName(), e1.findAttributePrimary(), e1));
             }else if( (link2.getCardinalMax().equals("1") && link1.getCardinalMax().equals("n")) ){
-                infos.findEntityByName(link2.getEntityName()).findAttributePrimary().setReferences(infos.findEntityByName(link1.getEntityName()).findAttributePrimary());
+                e1.getElement().getAttributes().add(new Attribute("fk_" + e2.findAttributePrimary().getName(), e2.findAttributePrimary(), e2));
             }else if( link1.getCardinalMax().equals("n") && link2.getCardinalMax().equals("n") ){
-                sqlEentities.add(new Element(relation.getElement().getName(), relation.getElement().getAttributes()));
+                ArrayList<Attribute> newAttributes = relation.getElement().getAttributes();
+                Attribute fk1 = new Attribute(e1.findAttributePrimary().getName() + "_fk", e1.findAttributePrimary(), e1);
+                Attribute fk2 = new Attribute(e2.findAttributePrimary().getName() + "_fk", e2.findAttributePrimary(), e2);
+                newAttributes.add(infos.findEntityByName(link2.getEntityName()).findAttributePrimary());
+                newAttributes.add(infos.findEntityByName(link1.getEntityName()).findAttributePrimary());
+                sqlEentities.add(new Element(relation.getElement().getName(), newAttributes));
             }
         });
         StringBuilder stringBuild = new StringBuilder();
@@ -48,14 +56,33 @@ public class SqlService {
         return stringBuild.toString();
     }
 
-    private String createAttributes(ArrayList<Attribute> attributes) {
+    private String createAttributes(ArrayList<Attribute> attributes){
         StringBuilder stringBuild = new StringBuilder();
-        attributes.forEach( attribute -> {
+
+        attributes.forEach(attribute -> {
             stringBuild.append("\n\t\t" + attribute.getName() + " " + attribute.getType());
-            if(attribute.isPrimaryKey()){
-                stringBuild.append(" CONSTRAINT "+ attribute.getName() +"_pk PRIMARY KEY ("+ attribute.getName() +")");
+        });
+        stringBuild.append("\n\t\t" + "PRIMARY KEY (");
+
+        List<Attribute> pks = attributes.stream().filter(attr -> attr.isPrimaryKey()).collect(Collectors.toList());
+
+        for(int i = 0; i < pks.size(); i++){
+            stringBuild.append(pks.get(i).getName());
+            if(i < pks.size() - 1){
+                stringBuild.append(", ");
+            }
+        }
+
+        stringBuild.append(")");
+
+        attributes.forEach( attr -> {
+            if(attr.getReferences() != null){
+                stringBuild.append("\n\t\t" + "CONSTRAINT " + attr.getName() + "_" + attr.getReferences().getName() + "_FK REFERENCES " + attr.getForeignTable().getElement().getName() + " ("  + attr.getReferences().getName() + ") ");
             }
         });
+
+        /*
+        }*/
         return stringBuild.toString();
     }
 }

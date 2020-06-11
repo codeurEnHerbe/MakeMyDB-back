@@ -1,5 +1,6 @@
 package fr.iut.makemydb.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -10,10 +11,19 @@ public class Attribute {
     @JsonProperty(value="isPrimary")
     private boolean isPrimaryKey;
 
-    private boolean foreignTable, foreignAttribute;
+    @JsonIgnore
+    private Entity foreignTable;
 
     private Attribute references;//Foreign Key
 
     public Attribute(){
+    }
+
+    //FK oriented constructor
+    public Attribute(String name, Attribute references, Entity foreignTable){
+        this.name = name;
+        this.references = references;
+        this.foreignTable = foreignTable;
+        this.type = foreignTable.findAttributePrimary().getType();
     }
 }
