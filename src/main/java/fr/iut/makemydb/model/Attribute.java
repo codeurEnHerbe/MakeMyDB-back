@@ -14,6 +14,7 @@ public class Attribute {
     @JsonIgnore
     private Entity foreignTable;
 
+    @JsonIgnore
     private Attribute references;//Foreign Key
 
     public Attribute(){

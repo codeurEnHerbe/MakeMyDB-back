@@ -23,12 +23,11 @@ public class SqlService {
         String data = schema.getSchemaData();
         ObjectMapper mapper = new ObjectMapper();
         SchemaInfos infos = mapper.readValue(data, SchemaInfos.class);
-        System.out.print(createRelations(infos));
-
-        return "";
+        return createRelations(infos);
     }
 
     private String createRelations(SchemaInfos infos){
+        System.out.print(infos);
         ArrayList<Element> sqlEentities = new ArrayList<>(infos.getEntities().stream().map( entity -> entity.getElement()).collect(Collectors.toList()));
         infos.getRelations().forEach( relation -> {
             Link link1 = relation.getElement().getLinks().get(0);

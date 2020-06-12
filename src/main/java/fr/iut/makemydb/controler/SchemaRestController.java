@@ -11,13 +11,16 @@ import fr.iut.makemydb.service.UserInfosService;
 import lombok.val;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequestMapping("/api/schema")
@@ -52,7 +55,7 @@ public class SchemaRestController {
     }
 
     @GetMapping("/generate")
-    public String generateSql(@RequestParam("id") int id) throws JSONException, JsonProcessingException {
+    public ResponseEntity<Map<String, String>> generateSql(@RequestParam("id") int id) throws JSONException, JsonProcessingException {
         Optional<SchemaEntity> schema = userService.getCurrentUser().getSchemas()
             .stream()
             .filter( schemaEntity -> schemaEntity.getId().equals(id))
@@ -60,16 +63,20 @@ public class SchemaRestController {
         if(schema.isPresent()) {
             String yeet = sqlService.generateSql(schema.get());
             System.out.println(yeet);
-            return yeet;
+            return ResponseEntity.ok().body(Collections.singletonMap("response", yeet));
+        }else{
+            return ResponseEntity.notFound().build();
         }
-         return "";
     }
 
     @PostMapping(path = "/")
-    public SchemaDTO create(@RequestBody SchemaDTO schema) throws JsonProcessingException {
+    public ResponseEntity<SchemaDTO> save(@RequestBody SchemaDTO schema) throws JsonProcessingException {
         System.out.println(schema);
+        if(userService.getCurrentUser() == null){
+            return ResponseEntity.status(401).build();
+        }
         val tmp = delegate.createSchemaEntity(schema);
-        return mapper.map(tmp, SchemaDTO.class);
+        return ResponseEntity.ok(mapper.map(tmp, SchemaDTO.class));
     }
 
     @GetMapping("/load/{name}")

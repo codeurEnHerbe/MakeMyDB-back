@@ -7,13 +7,12 @@ import java.util.Optional;
 
 @Data
 public class Entity {
-    private String elementId, label;
+    private String elementId;
     private Element element;
     private int x, y;
 
     public Entity(String elementId, String label, Element element, int x, int y) {
         this.elementId = elementId;
-        this.label = label;
         this.element = element;
         this.x = x;
         this.y = y;

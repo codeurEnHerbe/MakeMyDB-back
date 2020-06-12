@@ -1,5 +1,6 @@
 package fr.iut.makemydb.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.iut.makemydb.model.*;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -24,14 +25,14 @@ public class SchemaDTO {
     }
     @Data
     public static class EntityDTO{
-        private String elementId, label;
+        private String elementId;
         private ElementDTO element;
         private int x, y;
 
     }
     @Data
     public static class RelationDTO{
-        private String elementId, label;
+        private String elementId;
         private ElementRelationDTO element;
         private int x, y;
 
@@ -46,6 +47,8 @@ public class SchemaDTO {
     public static class AttributeDTO{
         private String name, type;
 
+        @JsonProperty(value="isPrimary")
+        private boolean isPrimary;
     }
     @Data
     public static class ElementRelationDTO{
