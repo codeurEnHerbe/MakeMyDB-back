@@ -1,5 +1,6 @@
 package fr.iut.makemydb.mapper;
 
+import fr.iut.makemydb.dto.SchemaDTO;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -24,5 +25,4 @@ public class DtoConverter {
     public static <S, D> List<D> mapAsList(Iterable<S> source, Class<D> destinationClass) {
         return mapper.mapAsList(source, destinationClass);
     }
-
 }

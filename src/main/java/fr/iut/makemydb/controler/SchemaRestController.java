@@ -3,6 +3,7 @@ package fr.iut.makemydb.controler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.iut.makemydb.domain.SchemaEntity;
 import fr.iut.makemydb.dto.SchemaDTO;
+import fr.iut.makemydb.dto.SchemaResponseDTO;
 import fr.iut.makemydb.mapper.DtoConverter;
 import fr.iut.makemydb.repository.SchemaRepository;
 import fr.iut.makemydb.service.SchemaService;
@@ -80,12 +81,18 @@ public class SchemaRestController {
     }
 
     @GetMapping("/load/{name}")
-    public ResponseEntity<SchemaDTO> load(@PathVariable("name") String name) {
+    public ResponseEntity<SchemaResponseDTO> load(@PathVariable("name") String name) {
         val tmp = delegate.loadSchemaEntity(name);
         if (tmp.isPresent())
-            return ResponseEntity.ok(mapper.map(tmp.get(), SchemaDTO.class));
+            return ResponseEntity.ok(mapper.map(tmp.get(), SchemaResponseDTO.class));
         else
             return ResponseEntity.status(403).build();
+    }
+
+    @GetMapping("/load/")
+    public ResponseEntity<List<SchemaResponseDTO>> loadAll() {
+        val tmp = delegate.loadAllSchemaEntity();
+            return ResponseEntity.ok(mapper.mapAsList(tmp, SchemaResponseDTO.class));
     }
 
 }

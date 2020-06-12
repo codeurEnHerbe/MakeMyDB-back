@@ -76,4 +76,10 @@ public class SchemaService {
                 .filter(schema -> schema.getName().equals(name))
                 .findAny();
     }
+
+    public List<SchemaEntity> loadAllSchemaEntity() {
+        UserInfosEntity user = userServ.getCurrentUser();
+
+        return user.getSchemas();
+    }
 }

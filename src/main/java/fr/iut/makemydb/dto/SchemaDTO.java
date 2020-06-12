@@ -22,6 +22,7 @@ public class SchemaDTO {
         List<EntityDTO> entities;
         List<RelationDTO> relations;
 
+
     }
     @Data
     public static class EntityDTO{
@@ -49,6 +50,7 @@ public class SchemaDTO {
 
         @JsonProperty(value="isPrimary")
         private boolean isPrimary;
+
     }
     @Data
     public static class ElementRelationDTO{
