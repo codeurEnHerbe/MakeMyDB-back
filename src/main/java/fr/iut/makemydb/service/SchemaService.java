@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.iut.makemydb.domain.SchemaEntity;
 import fr.iut.makemydb.domain.UserInfosEntity;
 import fr.iut.makemydb.dto.SchemaDTO;
+import fr.iut.makemydb.dto.SchemaResponseDTOLight;
 import fr.iut.makemydb.repository.SchemaRepository;
 import fr.iut.makemydb.repository.UserInfosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,9 +78,12 @@ public class SchemaService {
                 .findAny();
     }
 
-    public List<SchemaEntity> loadAllSchemaEntity() {
+    public List<SchemaResponseDTOLight> loadAllSchemaEntityLight() {
         UserInfosEntity user = userServ.getCurrentUser();
 
-        return user.getSchemas();
+        return user.getSchemas()
+                .stream()
+                .map(res -> new SchemaResponseDTOLight(res.getId(), res.getName()))
+                .collect(Collectors.toList());
     }
 }

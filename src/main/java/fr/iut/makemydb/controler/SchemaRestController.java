@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.iut.makemydb.domain.SchemaEntity;
 import fr.iut.makemydb.dto.SchemaDTO;
 import fr.iut.makemydb.dto.SchemaResponseDTO;
+import fr.iut.makemydb.dto.SchemaResponseDTOLight;
 import fr.iut.makemydb.mapper.DtoConverter;
 import fr.iut.makemydb.repository.SchemaRepository;
 import fr.iut.makemydb.service.SchemaService;
@@ -90,9 +91,9 @@ public class SchemaRestController {
     }
 
     @GetMapping("/load/")
-    public ResponseEntity<List<SchemaResponseDTO>> loadAll() {
-        val tmp = delegate.loadAllSchemaEntity();
-            return ResponseEntity.ok(mapper.mapAsList(tmp, SchemaResponseDTO.class));
+    public ResponseEntity<List<SchemaResponseDTOLight>> loadAll() {
+        val tmp = delegate.loadAllSchemaEntityLight();
+            return ResponseEntity.ok(mapper.mapAsList(tmp, SchemaResponseDTOLight.class));
     }
 
 }
