@@ -40,8 +40,8 @@ public class UserInfosService {
     }
 
     public UserInfosEntity getCurrentUser(){
-        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Optional<UserInfosEntity> userInfos = userRepo.findByUsername(user.getUsername());
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<UserInfosEntity> userInfos = userRepo.findByUsername(username);
         if(userInfos.isPresent()){
             return userInfos.get();
         }else{

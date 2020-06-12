@@ -1,5 +1,7 @@
 package fr.iut.makemydb.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.iut.makemydb.domain.SchemaEntity;
 import fr.iut.makemydb.domain.UserInfosEntity;
 import fr.iut.makemydb.dto.SchemaDTO;
@@ -27,6 +29,9 @@ public class SchemaService {
     @Autowired
     private UserInfosService userServ;
 
+    @Autowired
+    private ObjectMapper mapper;
+
     public List<SchemaEntity> findByNameContain(String name){
         UserInfosEntity userInfos = userServ.getCurrentUser();
         return userInfos.getSchemas().stream().
@@ -34,7 +39,7 @@ public class SchemaService {
                 .collect(Collectors.toList());
     }
 
-    public SchemaEntity createSchemaEntity(SchemaDTO schema){
+    public SchemaEntity createSchemaEntity(SchemaDTO schema) throws JsonProcessingException {
         UserInfosEntity userInfos = userServ.getCurrentUser();
         SchemaEntity e = new SchemaEntity();
         List<SchemaEntity> listSchema = userInfos.getSchemas();
@@ -44,7 +49,7 @@ public class SchemaService {
                 .findAny();
 
         e.setName(schema.getName());
-        e.setSchemaData(schema.getSchemaData());
+        e.setSchemaData(mapper.writeValueAsString(schema.getSchemaData()));
         if (schemaEntity.isPresent()) {
             listSchema.remove(schemaEntity.get());
         }

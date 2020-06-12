@@ -66,7 +66,7 @@ public class SchemaRestController {
     }
 
     @PostMapping(path = "/")
-    public SchemaDTO create(@RequestBody SchemaDTO schema){
+    public SchemaDTO create(@RequestBody SchemaDTO schema) throws JsonProcessingException {
         System.out.println(schema);
         val tmp = delegate.createSchemaEntity(schema);
         return mapper.map(tmp, SchemaDTO.class);
