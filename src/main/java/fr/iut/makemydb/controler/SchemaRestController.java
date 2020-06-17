@@ -81,9 +81,9 @@ public class SchemaRestController {
         return ResponseEntity.ok(mapper.map(tmp, SchemaDTO.class));
     }
 
-    @GetMapping("/load/{name}")
-    public ResponseEntity<SchemaResponseDTO> load(@PathVariable("name") String name) {
-        val tmp = delegate.loadSchemaEntity(name);
+    @GetMapping("/load/{id}")
+    public ResponseEntity<SchemaResponseDTO> load(@PathVariable("id") int id) {
+        val tmp = delegate.loadSchemaEntity(id);
         if (tmp.isPresent())
             return ResponseEntity.ok(mapper.map(tmp.get(), SchemaResponseDTO.class));
         else

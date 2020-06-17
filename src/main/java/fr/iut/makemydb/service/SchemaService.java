@@ -69,12 +69,12 @@ public class SchemaService {
         return result;
     }
 
-    public Optional<SchemaEntity> loadSchemaEntity(String name) {
+    public Optional<SchemaEntity> loadSchemaEntity(int id) {
         UserInfosEntity user = userServ.getCurrentUser();
 
         return user.getSchemas()
                 .stream()
-                .filter(schema -> schema.getName().equals(name))
+                .filter(schema -> schema.getId() == id)
                 .findAny();
     }
 
