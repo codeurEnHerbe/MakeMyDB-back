@@ -13,9 +13,14 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @RestController
 @RequestMapping("/users")
@@ -79,4 +84,7 @@ public class UserController {
         jdbcUserDetailsManager.deleteUser(username);
        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+
+
 }

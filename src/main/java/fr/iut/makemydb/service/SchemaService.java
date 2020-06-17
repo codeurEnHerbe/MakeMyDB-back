@@ -81,6 +81,14 @@ public class SchemaService {
     public List<SchemaResponseDTOLight> loadAllSchemaEntityLight() {
         UserInfosEntity user = userServ.getCurrentUser();
 
+        if(user == null){
+            return null;
+        }
+
+        if(user.getSchemas() == null){
+            return new ArrayList<SchemaResponseDTOLight>();
+        }
+
         return user.getSchemas()
                 .stream()
                 .map(res -> new SchemaResponseDTOLight(res.getId(), res.getName()))

@@ -93,7 +93,12 @@ public class SchemaRestController {
     @GetMapping("/load/")
     public ResponseEntity<List<SchemaResponseDTOLight>> loadAll() {
         val tmp = delegate.loadAllSchemaEntityLight();
+
+
+        if(tmp != null)
             return ResponseEntity.ok(mapper.mapAsList(tmp, SchemaResponseDTOLight.class));
+
+        return ResponseEntity.status(403).build();
     }
 
 }
