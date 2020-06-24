@@ -51,9 +51,13 @@ public class SchemaDTO {
         @JsonProperty(value="isPrimary")
         private boolean isPrimary;
 
+        private int typeNumber;
+
     }
     @Data
     public static class ElementRelationDTO{
+        public String name;
+        public ArrayList<AttributeDTO> attributes;
         public ArrayList<LinkDTO> links;
 
     }

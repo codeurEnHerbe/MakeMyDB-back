@@ -11,6 +11,8 @@ public class Attribute {
     @JsonProperty(value="isPrimary")
     private boolean isPrimaryKey;
 
+    private int typeNumber;
+
     @JsonIgnore
     private Entity foreignTable;
 

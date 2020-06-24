@@ -36,7 +36,10 @@ public class SqlService {
             Entity e2 = infos.findEntityByName(link2.getEntityName());
 
             if( (link1.getCardinalMax().equals("1") && link2.getCardinalMax().equals("n")) ){
-                e2.getElement().getAttributes().add(new Attribute("fk_" + e1.findAttributePrimary().getName(), e1.findAttributePrimary(), e1));
+                e2.getElement().getAttributes().add(
+                        new Attribute("fk_" + e1.findAttributePrimary().getName(),
+                                e1.findAttributePrimary(),
+                                xe1));
             }else if( (link2.getCardinalMax().equals("1") && link1.getCardinalMax().equals("n")) ){
                 e1.getElement().getAttributes().add(new Attribute("fk_" + e2.findAttributePrimary().getName(), e2.findAttributePrimary(), e2));
             }else if( link1.getCardinalMax().equals("n") && link2.getCardinalMax().equals("n") ){
@@ -60,6 +63,11 @@ public class SqlService {
 
         attributes.forEach(attribute -> {
             stringBuild.append("\n\t\t" + attribute.getName() + " " + attribute.getType());
+            //if(attribute.getTypeNumber()){
+              //  stringBuild.append("(" + attribute.getTypeNumber().get() + ")");
+            //
+            //}
+            //System.out.println(attribute.getTypeNumber());
         });
         stringBuild.append("\n\t\t" + "PRIMARY KEY (");
 
