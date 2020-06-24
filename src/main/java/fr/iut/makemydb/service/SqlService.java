@@ -38,10 +38,14 @@ public class SqlService {
             if( (link1.getCardinalMax().equals("1") && link2.getCardinalMax().equals("n")) ){
                 e2.getElement().getAttributes().add(
                         new Attribute("fk_" + e1.findAttributePrimary().getName(),
-                                e1.findAttributePrimary(),
-                                xe1));
+                                e1.findAttributePrimary(), e1));
             }else if( (link2.getCardinalMax().equals("1") && link1.getCardinalMax().equals("n")) ){
-                e1.getElement().getAttributes().add(new Attribute("fk_" + e2.findAttributePrimary().getName(), e2.findAttributePrimary(), e2));
+                e1.getElement()
+                        .getAttributes()
+                        .add(new Attribute("fk_" +
+                                e2.findAttributePrimary().getName(),
+                                e2.findAttributePrimary(),
+                                e2));
             }else if( link1.getCardinalMax().equals("n") && link2.getCardinalMax().equals("n") ){
                 ArrayList<Attribute> newAttributes = relation.getElement().getAttributes();
                 Attribute fk1 = new Attribute(e1.findAttributePrimary().getName() + "_fk", e1.findAttributePrimary(), e1);
@@ -53,7 +57,7 @@ public class SqlService {
         });
         StringBuilder stringBuild = new StringBuilder();
         sqlEentities.forEach( element -> {
-            stringBuild.append("\nCREATE TABLE IF NOT EXISTS " + element.getName() + " (" + createAttributes(element.getAttributes()) + "\n)");
+            stringBuild.append("\nCREATE TABLE IF NOT EXISTS " + element.getName() + " (" + createAttributes(element.getAttributes()) + "\n);");
         });
         return stringBuild.toString();
     }
@@ -62,14 +66,12 @@ public class SqlService {
         StringBuilder stringBuild = new StringBuilder();
 
         attributes.forEach(attribute -> {
+            if(attributes.indexOf(attribute) != 0){
+                stringBuild.append(",");
+            }
             stringBuild.append("\n\t\t" + attribute.getName() + " " + attribute.getType());
-            //if(attribute.getTypeNumber()){
-              //  stringBuild.append("(" + attribute.getTypeNumber().get() + ")");
-            //
-            //}
-            //System.out.println(attribute.getTypeNumber());
         });
-        stringBuild.append("\n\t\t" + "PRIMARY KEY (");
+        stringBuild.append("," + "\n\t\t" + "PRIMARY KEY (");
 
         List<Attribute> pks = attributes.stream().filter(attr -> attr.isPrimaryKey()).collect(Collectors.toList());
 
@@ -84,12 +86,9 @@ public class SqlService {
 
         attributes.forEach( attr -> {
             if(attr.getReferences() != null){
-                stringBuild.append("\n\t\t" + "CONSTRAINT " + attr.getName() + "_" + attr.getReferences().getName() + "_FK REFERENCES " + attr.getForeignTable().getElement().getName() + " ("  + attr.getReferences().getName() + ") ");
+                stringBuild.append("," + "\n\t\t" + "CONSTRAINT " + attr.getName() + "_" + attr.getReferences().getName() + "_FK FOREIGN KEY (" + attr.getName() + ") REFERENCES " + attr.getForeignTable().getElement().getName() + " ("  + attr.getReferences().getName() + ") ");
             }
         });
-
-        /*
-        }*/
         return stringBuild.toString();
     }
 }

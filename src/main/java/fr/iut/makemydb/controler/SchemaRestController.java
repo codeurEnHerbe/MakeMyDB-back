@@ -56,11 +56,11 @@ public class SchemaRestController {
         return mapper.mapAsList(tmp, SchemaDTO.class);
     }
 
-    @GetMapping("/generate")
-    public ResponseEntity<Map<String, String>> generateSql() throws JSONException, JsonProcessingException {
+    @GetMapping("/generate/{id}")
+    public ResponseEntity<Map<String, String>> generateSql(@PathVariable("id") Integer id) throws JSONException, JsonProcessingException {
         Optional<SchemaEntity> schema = userService.getCurrentUser().getSchemas()
             .stream()
-            .filter( schemaEntity -> schemaEntity.getId().equals(1))
+            .filter( schemaEntity -> schemaEntity.getId().equals(id))
             .findAny();
         if(schema.isPresent()) {
             String yeet = sqlService.generateSql(schema.get());

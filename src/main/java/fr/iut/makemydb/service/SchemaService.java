@@ -56,6 +56,7 @@ public class SchemaService {
         }
         listSchema.add(e);
         e.setUser(userInfos);
+        repository.saveAndFlush(e);
         return e;
     }
 

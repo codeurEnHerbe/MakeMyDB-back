@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class SchemaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "seq")
     @SequenceGenerator(name = "seq", sequenceName = "seq_schema", allocationSize = 1)
     @Setter(AccessLevel.PRIVATE)
     private Integer id;
