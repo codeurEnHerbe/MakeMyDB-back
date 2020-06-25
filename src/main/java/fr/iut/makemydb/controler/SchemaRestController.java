@@ -13,6 +13,7 @@ import fr.iut.makemydb.service.UserInfosService;
 import lombok.val;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -99,6 +100,15 @@ public class SchemaRestController {
             return ResponseEntity.ok(mapper.mapAsList(tmp, SchemaResponseDTOLight.class));
 
         return ResponseEntity.status(403).build();
+    }
+
+    @GetMapping("/delete/{id}")
+    public ResponseEntity delete(@PathVariable("id") int id) {
+        val tmp = delegate.deleteSchemaEntity(id);
+        if (tmp)
+            return ResponseEntity.ok().build();
+        else
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
 }

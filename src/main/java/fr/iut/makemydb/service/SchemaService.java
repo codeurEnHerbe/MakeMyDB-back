@@ -95,4 +95,14 @@ public class SchemaService {
                 .map(res -> new SchemaResponseDTOLight(res.getId(), res.getName()))
                 .collect(Collectors.toList());
     }
+
+    public boolean deleteSchemaEntity(int id) {
+        UserInfosEntity user = userServ.getCurrentUser();
+
+        return user.getSchemas().remove(user.getSchemas()
+                .stream()
+                .filter(schema -> schema.getId() == id)
+                .findAny()
+                .get());
+    }
 }
