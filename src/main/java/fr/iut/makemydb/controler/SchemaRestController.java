@@ -102,7 +102,7 @@ public class SchemaRestController {
         return ResponseEntity.status(403).build();
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable("id") int id) {
         val tmp = delegate.deleteSchemaEntity(id);
         if (tmp)
