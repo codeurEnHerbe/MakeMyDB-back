@@ -58,10 +58,10 @@ public class SqlService {
                 ArrayList<Attribute> newAttributes = relation.getElement().getAttributes();
                 Attribute fk1 = new Attribute(e1.findAttributePrimary().getName() + "_fk", e1.findAttributePrimary(), e1);
                 Attribute fk2 = new Attribute(e2.findAttributePrimary().getName() + "_fk", e2.findAttributePrimary(), e2);
+                fk1.setPrimaryKey(true);
+                fk2.setPrimaryKey(true);
                 newAttributes.add(fk1);
                 newAttributes.add(fk2);
-                newAttributes.add(infos.findEntityByName(link2.getEntityName()).findAttributePrimary());
-                newAttributes.add(infos.findEntityByName(link1.getEntityName()).findAttributePrimary());
                 sqlEentities.add(new Element(relation.getElement().getName(), newAttributes));
             }
         });
